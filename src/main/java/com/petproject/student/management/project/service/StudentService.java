@@ -38,6 +38,10 @@ public class StudentService {
             throw new RuntimeException("Student not found with id:"+id);
         }
     }
+
+    public void deleteStudent(Long id){
+        studentRepository.deleteById(id);
+    }
 }
 
 

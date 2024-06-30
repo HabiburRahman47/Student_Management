@@ -52,4 +52,11 @@ public class StudentController {
         studentService.updateStudent(id, student);
         return "redirect:/student";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteStudent(@PathVariable Long id){
+        System.out.println("Id: "+id);
+        studentService.deleteStudent(id);
+        return "redirect:/student";
+    }
 }
