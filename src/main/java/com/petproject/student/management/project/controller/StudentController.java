@@ -5,13 +5,11 @@ import com.petproject.student.management.project.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/student")
@@ -37,8 +35,21 @@ public class StudentController {
         return "redirect:/student";
     }
 
-    @GetMapping("/edit")
-    public String editForm(){
-        return "edit";
+    @GetMapping("/edit/{id}")
+    public String editForm(@PathVariable Long id, Model model){
+        Optional<Student> optionalStudent = studentService.getStudent(id);
+        System.out.println("Student:"+optionalStudent);
+        if (optionalStudent.isPresent()){
+            model.addAttribute("student",optionalStudent.get());
+            return "edit";
+        }else {
+            return "redirect:/student";
+        }
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateStudent(@PathVariable Long id, @ModelAttribute Student student){
+        studentService.updateStudent(id, student);
+        return "redirect:/student";
     }
 }

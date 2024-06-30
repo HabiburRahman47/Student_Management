@@ -43,7 +43,7 @@
             <td th:text="${student.lastname}"></td>
             <td th:text="${student.email}"></td>
             <td>
-                <button type="button" class="btn btn-warning">Update</button>
+                <a th:href="@{/student/edit/{id}(id=${student.id})}" class="btn btn-warning">Update</a>
                 <button type="button" class="btn btn-danger">Delete</button>
             </td>
         </tr>
