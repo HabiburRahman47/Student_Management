@@ -1,6 +1,8 @@
 package com.petproject.student.management.project.controller;
 
 import com.petproject.student.management.project.model.Student;
+import com.petproject.student.management.project.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +16,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/student")
 public class StudentController {
-    private List<Student> students = new ArrayList<>();
-    // Adding dummy students
-//    public StudentController(){
-//        // Adding dummy students
-//        students.add(new Student("John", "Doe", "john@example.com"));
-//        students.add(new Student("Mary", "Moe", "mary@example.com"));
-//        students.add(new Student("July", "Dooley", "july@example.com"));
-//    }
+    @Autowired
+    private StudentService studentService;
 
     @GetMapping
     public String getAllStudents(Model model){
-        model.addAttribute("students", students);
+        model.addAttribute("students", studentService.getAllStudent());
         return "index";
     }
+
     @GetMapping("/create")
     public String createStudentForm(Model model) {
         model.addAttribute("student", new Student());
@@ -36,8 +33,12 @@ public class StudentController {
 
     @PostMapping("/create")
     public String createStudent(@ModelAttribute Student student){
-        System.out.println("Created");
-        students.add(student);
+        studentService.createStudent(student);
         return "redirect:/student";
+    }
+
+    @GetMapping("/edit")
+    public String editForm(){
+        return "edit";
     }
 }
